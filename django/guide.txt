@@ -1,0 +1,25 @@
+# make sure pip is installed
+check with pip command
+# upgrade pip
+pip install --upgrade pip
+
+# to install django use
+pip install django
+
+# to checj python package already install on your computer
+pip freeze
+
+# to start django app
+django-admin startproject newproject
+
+# to run the app
+python manage.py runserver
+
+# to create app
+python manage.py startapp firstapp
+
+# to run migration
+python manage.py migrate
+
+# to crate super user
+python manage.py createsuperuser
