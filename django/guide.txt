@@ -18,6 +18,9 @@ python manage.py runserver
 # to create app
 python manage.py startapp firstapp
 
+# register newly created app to setting.py
+firstapp
+
 # to run migration
 python manage.py migrate
 
