@@ -105,14 +105,18 @@ def bankOperation(user):
 
 def withdrawal(): 
     withdraw = int(input('How much would you like to withdraw? '))
-    if(withdraw):
+    if(withdraw and (withdraw > 0)):
         print('Take your cash')
+    else:
+        print('You can not withdraw a negative value of #%d' % withdraw)
     login()
 
 def deposit(): 
     deposit = int(input('How much would you like to deposit? '))
-    if(deposit):
+    if(deposit and (deposit > 0)):
         print('Current balance is #%d' % deposit)
+    else:
+        print('You can not deposit a negative value of #%d' % deposit)
     login()
     
 
