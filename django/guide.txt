@@ -10,7 +10,7 @@ pip install django
 pip freeze
 
 # to start django app
-django-admin startproject newproject
+django-admin startproject newproject .
 
 # to run the app
 python manage.py runserver
@@ -26,8 +26,8 @@ firstapp
 # to run migration
 python manage.py migrate
 # to migrate after adding app to settings
-python manage.py makemigrations
-python manage.py migrate
+python manage.py makemigrations app_name(optional)
+python manage.py migrate app_name(optional)
 
 # to crate super user
 python manage.py createsuperuser
