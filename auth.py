@@ -1,10 +1,15 @@
 import random
+import validation
+import database
+from getpass import getpass
 # bank operation
 
 # initializing the system
 
 
-database = {} # dictionary
+""" database = {
+    3458712354:['Ib', 'ade', 'ib@yahoo.com', 'password', 5000]
+} """ 
 
 def init():
 
@@ -52,17 +57,29 @@ def login():
         print("Invalid account or password") '''
 
 
-    accountNumberFromUser = int(input("Enter your account number \n"))
-    password = input("Enter your password \n")
+    account_number_from_user = int(input("Enter your account number \n"))
+    is_valid_account_number = validation.account_number_validation(account_number_from_user)
 
-    for accountNumber, userDetails in database.items():
-        if accountNumber == accountNumberFromUser:
-            if userDetails[3] == password:
-                bankOperation(userDetails)
+    if is_valid_account_number:
+        # password = input("Enter your password \n")
+        password = getpass("Enter your password \n")
+
+        user = database.authenicate_user(account_number_from_user, password)
+        if user:
+            bankOperation(user)
+
+
+        """ for accountNumber, userDetails in database.items():
+            if accountNumber == int(account_number_from_user):
+                if userDetails[3] == password:
+                    bankOperation(userDetails) """
     
-    print("Invalid account or password") 
+        print("Invalid account or password") 
+        login()
+    else:
+        print("Account number invalid, check to see if you have up to 10 digits number")
+        init()
 
-    login()
 
 def register():
     # - username, password, email
@@ -71,18 +88,29 @@ def register():
     email = input("Enter your email address \n")
     fname = input("Enter your first name \n")
     lname = input("Enter your last name \n")
-    password = input("Choose a password for yourself \n")
+    password = getpass("Choose a password for yourself \n")
 
-    accountNumber = generationAccountNumber()
-    database[accountNumber] = [fname, lname, email, password]
+    try:
+        account_number = generationAccountNumber()
+    except ValueError:
+        print("Account failed due to internet connectivity")
+        init()
 
-    # return database
-    print("Account created successfully")
-    print("== ==== ====== ====== ===== ===== ==")
-    print("Your account number is %d" % accountNumber)
-    print("Make sure you keep it safe")
-    print("== ==== ====== ====== ===== ===== ==")
-    login()
+    # database[accountNumber] = [fname, lname, email, password, 0.0]
+    # is_user_created = database.create(account_number, [fname, lname, email, password, 0.0])
+    # prepared_user_detail = fname + "," + lname + "," + email + "," + password + "," + str(0.0)
+    is_user_created = database.create(account_number, fname, lname, email, password)
+
+    if is_user_created:
+        print("Account created successfully")
+        print("== ==== ====== ====== ===== ===== ==")
+        print("Your account number is %d" % account_number)
+        print("Make sure you keep it safe")
+        print("== ==== ====== ====== ===== ===== ==")
+        login()
+    else:
+        print("Error while creating account. Please try again")
+        register()
 
 def bankOperation(user):
     print("Welcome %s %s " % (user[0], user[1]) )
@@ -103,9 +131,20 @@ def bankOperation(user):
 
 def withdrawal(): 
     print("Withdrawal")
+    # get current balance
+    # get amount to withdraw
+    # check if its greater than the amount to be withdrawn
+    # deduct amount from current balance
+    # display current balance 
 
 def deposit(): 
     print("Deposit")
+    # get current balance
+    # get amount to deposit
+    # add deposited amount to current balance
+    # display current balance 
+
+    # u can ask if they wanted to perfom another operation again
 
 def generationAccountNumber():
     return random.randrange(1111111111, 9999999999)

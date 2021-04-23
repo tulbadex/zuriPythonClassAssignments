@@ -6,7 +6,7 @@ pip install --upgrade pip
 # to install django use
 pip install django
 
-# to checj python package already install on your computer
+# to check python package already install on your computer
 pip freeze
 
 # to start django app
@@ -17,12 +17,52 @@ python manage.py runserver
 
 # to create app
 python manage.py startapp firstapp
+or
+django-admin startapp django_env
 
 # register newly created app to setting.py
 firstapp
 
 # to run migration
 python manage.py migrate
+# to migrate after adding app to settings
+python manage.py makemigrations
+python manage.py migrate
 
 # to crate super user
 python manage.py createsuperuser
+
+# creating virtual environment 
+pip install pipenv
+# to activate virtual environment
+pipenv shell
+# to install django
+pipenv install django
+# then we can make use of the django admin command to create django project
+# to keep the django secrete in virtual environment
+# locate the file in and place the key with, C:\Users\Tulbadex\.virtualenvs\env_var-nCfN8TLI\Scripts
+# locate the active.bat file
+set SECRET_KEY='django-insecure-^9m1-5r75k(7zlpr(p8j0el9d()0v@uywfk(&afwlze%u-u_%$'
+set DEBUG=True
+# or you can keep in .env file, i prefer this
+# add .env file where settings file is
+# declare your variable
+SECRET_KEY='django-insecure-^9m1-5r75k(7zlpr(p8j0el9d()0v@uywfk(&afwlze%u-u_%$'
+DEBUG=True
+# install environ
+pipenv install django-environ
+# add this to settings to settings file
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
+# always make sure the environment is activated before running python command
+
+# create a template folder in the root folder and add the location to the template dictionary in setting.py
+
+
+# django rest framework
+pipenv install djangorestframework
+# add rest framework to app installed settings
+'rest_framework'

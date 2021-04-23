@@ -5,17 +5,20 @@ database = {
     1232341234 : {
         'fname': 'ibrahim',
         'lname': 'ade',
-        'password': 'passwordIbrahim'
+        'password': 'passwordIbrahim',
+        'balance': 5000
      },
      1232341233 : {
         'fname': 'mike',
         'lname': 'arin',
-        'password': 'passwordMike'
+        'password': 'passwordMike',
+        'balance': 5000
      },
      1232341235 : {
         'fname': 'tunde',
         'lname': 'akeke',
-        'password': 'passwordTunde'
+        'password': 'passwordTunde',
+        'balance': 5000
      },
 } # dictionary
 
@@ -33,6 +36,26 @@ def init():
         init()
 
 
+def account_number_validation(account_number):
+    # check if account number is not empty
+    # check if account number is 10 digits
+    # check if the account number is an interger
+    if account_number:
+        if len(str(account_number)) == 10:
+            try:
+                int(account_number)
+                return True
+            except ValueError:
+                print("Account number should contains number only")
+                return False
+        else:
+            print("Account number can not be more or less than 10 digits")
+            return False
+    else:
+        print("Account number is a required field")
+        return False
+
+
 def register():
     # - username, password, email
     # - generate user id
@@ -42,10 +65,18 @@ def register():
     password = input("Choose a password for yourself \n")
 
     accountNumber = generationAccountNumber()
+
+    """ try:
+        accountNumber = generationAccountNumber()
+    except ValueError:
+        print("Account failed due to internet connectivity")
+        init() """
+
     database[accountNumber] = {
         'fname':fname, 
         'lname': lname, 
-        'password': password
+        'password': password,
+        'balance': 0.0  
     }
 
     # return database
@@ -64,12 +95,15 @@ def login():
 
     # name = input("What is your name? \n")
     accountNumberFromUser = int(input("Enter your account number \n"))
-    password = input("Your password? \n")
+    is_valid_account_number = account_number_validation(accountNumberFromUser)
+    if is_valid_account_number:
+        password = input("Your password? \n")
+    
 
     for accountNumber, userDetails in database.items():
         # print(accountNumber)
         # print(userDetails['password'])
-        if(accountNumber == accountNumberFromUser):
+        if(accountNumber == int(accountNumberFromUser)):
             # print("This is ur account number ", accountNumber)
             if(userDetails['password'] == password):
                 bankOperation(userDetails)
@@ -131,6 +165,12 @@ def logout():
 
 def generationAccountNumber():
     return random.randrange(1111111111, 9999999999)
+
+def set_current_balance(user, balance):
+    user['balance'] = balance
+
+def get_current_balance(user):
+    return user['balance']
 
 
 init()
