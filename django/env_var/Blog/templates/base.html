@@ -6,22 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title%}Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
     <header>
         <div class="nav-left">
-            <h1><a href="{% url 'home' %}">Django Blog</a></h1>
+            <h1><a href="{% url 'posts:home' %}">Django Blog</a></h1>
         </div>
-
+        {% if user.is_authenticated %}
         <div class="nav-right">
-            <a href="{% url 'post_new' %}">New Blog Post</a>
+            <h4><span>Hello, {{ user.username|default:'Guest' }}!</span></h4>&nbsp;
+            <a href="{% url 'posts:post_new' %}">New Blog Post</a>&nbsp;&nbsp;
+            <a href="{% url 'accounts:logout' %}">Logout</a>
         </div>
+        {% else %}
+        <div class="nav-right">
+            <a href="{% url 'accounts:login' %}">Login</a>
+        </div>
+        {% endif %}
     </header>
 
     <div>
         {% block content %}
         {% endblock %}
     </div>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 </html>

@@ -8,7 +8,25 @@
         <h2>{{ post.title }}</h2>
         <p>{{ post.body }}</p>
     </div>
-    <a href="{% url 'post_edit' post.pk %}">Edit Blog Post</a>&nbsp;&nbsp;&nbsp;
-    <a href="{% url 'post_delete' post.pk %}">Delete Blog Post</a>
+    <div class="card-footer">
+        {% for comment in post.comments.all %}
+            <p>
+                <span class="font-weight-bold">{{ comment.author }}:</span>
+                {{ comment }}
+            </p>
+        {% endfor %}
+        <!-- <a href="{% url 'posts:comment_new' post.pk %}">+ New Comment</a> -->
+    </div>
+    {% if user.is_authenticated %}
+    <form method="post" action="{% url 'posts:comment_new' post_pk=post.pk %}">
+        {% csrf_token %}
+        <textarea name="comment" id="" cols="30" rows="10" required></textarea>
+        <button class="btn btn-info" type="submit">Add Comment</button>
+    </form>
+    <a href="{% url 'posts:post_edit' post.pk %}">Edit Blog Post</a>&nbsp;&nbsp;&nbsp;
+    <a href="{% url 'posts:post_delete' post.pk %}">Delete Blog Post</a>
+    {% else %}
+    <a href="{% url 'accounts:login' %}">Login to Comment</a>
+    {% endif %}
 
 {% endblock %}

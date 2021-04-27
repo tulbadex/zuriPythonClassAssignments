@@ -7,7 +7,7 @@
     <div class="post-entry">
         <h1>New Blog post</h1>
 
-        <form action="" method="post">
+        <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Save</button>
